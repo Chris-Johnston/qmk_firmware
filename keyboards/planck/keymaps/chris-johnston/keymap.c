@@ -31,7 +31,8 @@ enum planck_layers {
 enum planck_keycodes {
   QWERTY = SAFE_RANGE,
   BACKLIT,
-  TADA
+  TADA,
+  MUSHROOM
 };
 
 #define LOWER MO(_LOWER)
@@ -41,8 +42,7 @@ enum planck_keycodes {
 
 #ifdef AUDIO_ENABLE
   float treasure[][2] = SONG(ZELDA_TREASURE);
-  float plover_song[][2]     = SONG(PLOVER_SOUND);
-  float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
+  float mushroom[][2] = SONG(ZELDA_PUZZLE);
 #endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -113,13 +113,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_ADJUST] = LAYOUT_planck_grid(
-    _______, RESET,   DEBUG,   CK_TOGG, TADA, _______, _______, _______, _______, _______, _______, KC_DEL ,
+    _______, RESET,   DEBUG,   CK_TOGG, TADA, MUSHROOM, _______, _______, _______, _______, _______, KC_DEL ,
     _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______,  _______, _______,  _______,  _______,
     _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
     FUNCT  , _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 [_FUNCTION] = LAYOUT_planck_grid(
-    _______, RESET,   DEBUG,   CK_TOGG, TADA, _______, _______, _______, _______, _______, _______, KC_DEL ,
+    _______, RESET,   DEBUG,   CK_TOGG, TADA, MUSHROOM, _______, _______, _______, _______, _______, KC_DEL ,
     _______, _______, MU_MOD,  AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______,  _______, _______,  _______,  _______,
     _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  TERM_ON, TERM_OFF, _______, _______, _______,
     FUNCT  , _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -152,6 +152,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case TADA:
       PLAY_SONG(treasure);
+      break;
+    case MUSHROOM:
+      PLAY_SONG(mushroom);
       break;
     // case COLEMAK:
     //   if (record->event.pressed) {
@@ -251,12 +254,12 @@ void dip_update(uint8_t index, bool active) {
     case 0:
       if (active) {
         #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_song);
+          //PLAY_SONG(plover_song);
         #endif
         layer_on(_ADJUST);
       } else {
         #ifdef AUDIO_ENABLE
-          PLAY_SONG(plover_gb_song);
+          //PLAY_SONG(plover_gb_song);
         #endif
         layer_off(_ADJUST);
       }
