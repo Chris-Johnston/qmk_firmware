@@ -1,3 +1,5 @@
+lib/lufa/Projects/**/obj/**
+
 .dep
 *.o
 *.bin

@@ -77,6 +77,12 @@ led_setup_t leds_black_with_red_stripe[] = {
     { .end = 1 },
 };
 
+led_setup_t leds_black_with_cyan_stripe[] = {
+    { .hs = 0, .he = 5, .rs = 0, .re = 0, .gs = 0, .ge = 255, .bs = 0, .be = 255, .ef = EF_SCR_R },
+    { .hs = 5, .he = 10, .rs = 0, .re = 0, .gs = 255, .ge = 0, .bs = 255, .be = 0, .ef = EF_SCR_R },
+    { .end = 1 },
+};
+
 //Rainbow no scrolling
 led_setup_t leds_rainbow_ns[] = {
     { .hs = 0,      .he = 16.67,  .rs = 255, .re = 255, .gs = 0,   .ge = 255, .bs = 0,   .be = 0,   .ef = EF_OVER },
@@ -104,6 +110,7 @@ led_setup_t leds_rainbow_s[] = {
 //Add the new animation name to the list below following its format
 
 void *led_setups[] = {
+    leds_black_with_cyan_stripe,
     leds_rainbow_s,
     leds_rainbow_ns,
     leds_teal_salmon,
