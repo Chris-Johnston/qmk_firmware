@@ -50,6 +50,13 @@ typedef struct issi3733_driver_s {
     uint8_t conf[ISSI3733_PG_FN_BYTES];     //PG3 - Function Register
 } issi3733_driver_t;
 
+// struct used by led_user
+typedef struct user_rgb_s {
+  int r;
+  int g;
+  int b;
+} user_rgb_t;
+
 typedef struct issi3733_rgb_s {
     uint8_t *r;         //Direct access into PWM data
     uint8_t *g;         //Direct access into PWM data
@@ -92,7 +99,8 @@ void rgb_matrix_init_user(void);
 #define LED_MODE_KEYS_ONLY          1
 #define LED_MODE_NON_KEYS_ONLY      2
 #define LED_MODE_INDICATORS_ONLY    3
-#define LED_MODE_MAX_INDEX          LED_MODE_INDICATORS_ONLY   //Must be highest value
+#define LED_MODE_USER               4 // custom led mode that is set by the user
+#define LED_MODE_MAX_INDEX          LED_MODE_USER   //Must be highest value
 
 #define EF_NONE         0x00000000  //No effect
 #define EF_OVER         0x00000001  //Overwrite any previous color information with new

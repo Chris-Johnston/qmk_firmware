@@ -258,6 +258,9 @@ issi3733_led_t *led_cur;
 uint8_t led_per_run = 15;
 float breathe_mult;
 
+// has to be set in the keymap
+user_rgb_t led_user(issi3733_led_t* cur);
+
 __attribute__ ((weak))
 void led_matrix_run(void)
 {
@@ -309,7 +312,15 @@ void led_matrix_run(void)
         go = 0;
         bo = 0;
 
-        if (led_lighting_mode == LED_MODE_KEYS_ONLY && led_cur->scan == 255)
+        if (led_lighting_mode == LED_MODE_USER)
+        {
+            // use the lighting mode that is set by the user
+            user_rgb_t result = led_user(led_cur);
+            ro = result.r;
+            go = result.g;
+            bo = result.b;
+        }
+        else if (led_lighting_mode == LED_MODE_KEYS_ONLY && led_cur->scan == 255)
         {
             //Do not act on this LED
         }
