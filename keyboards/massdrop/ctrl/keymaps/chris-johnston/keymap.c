@@ -65,7 +65,8 @@ const uint16_t PROGMEM fn_actions[] = {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-  led_lighting_mode = LED_MODE_USER;
+  //led_lighting_mode = LED_MODE_USER;
+  led_lighting_mode = LED_MODE_HACKING;
 };
 
 // Runs constantly in the background, in a loop.

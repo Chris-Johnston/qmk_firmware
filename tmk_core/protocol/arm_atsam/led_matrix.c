@@ -18,6 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "arm_atsam_protocol.h"
 #include "tmk_core/common/led.h"
 #include <string.h>
+#include <time.h>
+#include <stdlib.h>
 
 void SERCOM1_0_Handler( void )
 {
@@ -312,7 +314,28 @@ void led_matrix_run(void)
         go = 0;
         bo = 0;
 
-        if (led_lighting_mode == LED_MODE_USER)
+        if (led_lighting_mode == LED_MODE_HACKING)
+        {
+            // don't modify the output
+            ro = *led_cur->rgb.r;
+            go = *led_cur->rgb.g;
+            bo = *led_cur->rgb.b;
+
+            // turn down the brightness a little bit
+            ro -= 6;
+            go -= 6;
+            bo -= 6;
+
+            bool on = (rand() % 100) == 0;
+            // bool on = true;
+            if (on)
+            {
+                ro = 0;
+                go = 255;
+                bo = 0;
+            }
+        }
+        else if (led_lighting_mode == LED_MODE_USER)
         {
             // use the lighting mode that is set by the user
             user_rgb_t result = led_user(led_cur);

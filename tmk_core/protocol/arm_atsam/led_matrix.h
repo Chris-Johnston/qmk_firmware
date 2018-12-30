@@ -100,7 +100,8 @@ void rgb_matrix_init_user(void);
 #define LED_MODE_NON_KEYS_ONLY      2
 #define LED_MODE_INDICATORS_ONLY    3
 #define LED_MODE_USER               4 // custom led mode that is set by the user
-#define LED_MODE_MAX_INDEX          LED_MODE_USER   //Must be highest value
+#define LED_MODE_HACKING            5 // HACKING MODE
+#define LED_MODE_MAX_INDEX          LED_MODE_HACKING   //Must be highest value
 
 #define EF_NONE         0x00000000  //No effect
 #define EF_OVER         0x00000001  //Overwrite any previous color information with new
