@@ -326,7 +326,7 @@ void led_matrix_run(void)
             go -= 6;
             bo -= 6;
 
-            bool on = (rand() % 100) == 0;
+            bool on = (rand() % 150) == 0;
             // bool on = true;
             if (on)
             {
