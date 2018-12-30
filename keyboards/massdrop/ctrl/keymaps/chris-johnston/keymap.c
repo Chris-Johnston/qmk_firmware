@@ -63,10 +63,21 @@ const uint16_t PROGMEM fn_actions[] = {
 
 };
 
+#define NUM_KEYS 87
+
+// this is set for each scan code
+uint8_t keypress_brightness[87];
+
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-  //led_lighting_mode = LED_MODE_USER;
-  led_lighting_mode = LED_MODE_HACKING;
+  // led_lighting_mode = LED_MODE_USER;
+  //led_lighting_mode = LED_MODE_HACKING;
+  led_lighting_mode = LED_MODE_TYPEREACTIVE;
+
+  for (int i = 0; i < NUM_KEYS; i++)
+  {
+    keypress_brightness[i] = 20;
+  }
 };
 
 // Runs constantly in the background, in a loop.
@@ -75,17 +86,61 @@ void matrix_scan_user(void) {
 
   // wonder I can just override led_cur
   // ok I cannot without bricking my keyboard
+
+
 };
+
+int count = 0;
+bool is_pressed [MATRIX_ROWS][MATRIX_COLS];
+
+void decrease_lighting_user(void)
+{
+  count++;
+  if (count % 3 != 0) return;
+
+  for (int i = 0; i < NUM_KEYS; i++)
+  {
+      // (col + row * MATRIX_COLS)
+      if (!is_pressed[i / MATRIX_COLS][i % MATRIX_COLS])
+      {
+          int b = keypress_brightness[i] - 1;
+          if (b < 0)
+          {
+              keypress_brightness[i] = 0;
+          }
+          else
+          {
+              keypress_brightness[i] = b;
+          }
+      }
+  }
+}
 
 bool toggle = false;
 
+#define start 48
+
+#include "scan_to_key.h"
+
+
+
+
+
 // looks up a color code for each scan code
 const user_rgb_t color_codes[] = {
-  [40] = { .r = 255, .b = 255},
-  [35] = { .r = 255, .b = 255},
-  [36] = { .r = 255, .b = 255},
+  [start + 0] = {.r = 255 },
+  [start + 1] = {.g = 255 },
+  [start + 2] = {.b = 255 },
+  // [40] = { .r = 255, .b = 255},
+  // [35] = { .r = 255, .b = 255},
+  // [36] = { .r = 255, .b = 255},
   [255] = {.r = 100, .b = 100},
 };
+
+user_rgb_t led_keypress_reaction(issi3733_led_t* led_cur)
+{
+  return (user_rgb_t) { .g = keypress_brightness[led_cur->scan] };
+}
 
 user_rgb_t led_user(issi3733_led_t* led_cur)
 {
@@ -110,7 +165,27 @@ user_rgb_t led_user(issi3733_led_t* led_cur)
 #define MODS_CTRL  (keyboard_report->mods & MOD_BIT(KC_LCTL) || keyboard_report->mods & MOD_BIT(KC_RCTRL))
 #define MODS_ALT  (keyboard_report->mods & MOD_BIT(KC_LALT) || keyboard_report->mods & MOD_BIT(KC_RALT))
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record)
+{
+    // stuff for per button rgb lighting
+    if (true || record->event.pressed)
+    {
+      int row = record->event.key.row;
+      int col = record->event.key.col;
+
+      if (!(row == 255 || col == 255))
+      {
+          // get the scan code
+          // int scancode = scan[row % MATRIX_ROWS][col % MATRIX_COLS] - 1;
+          int scancode = (col + row * MATRIX_COLS);
+          keypress_brightness[scancode] = 255;
+      }
+    }
+
+    is_pressed[record->event.key.row][record->event.key.col] = record->event.pressed;
+
+
     static uint32_t key_timer;
 
     switch (keycode) {

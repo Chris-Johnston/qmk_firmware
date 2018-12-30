@@ -57,6 +57,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //swb: Matrix wiring SW Blue row (1-12)
 //scan: Associated key scancode if any
 //Note: Origin 0,0 may be located anywhere as the software will do the final layout
+
+
+// scan ------ | key ---------
+// 0 escape
+// 1, 2 f1, f2
+// 48, 49, 50 f8-f10
+
+
+
 #define ISSI3733_LED_MAP { \
  { .id = 1, .x = 0, .y = 0, .adr = { .drv = 2, .cs = 2, .swr = 2, .swg = 1, .swb = 3 }, .scan = 0 }, \
  { .id = 2, .x = 1.5, .y = 0, .adr = { .drv = 2, .cs = 3, .swr = 5, .swg = 4, .swb = 6 }, .scan = 1 }, \

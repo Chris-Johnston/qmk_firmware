@@ -262,10 +262,13 @@ float breathe_mult;
 
 // has to be set in the keymap
 user_rgb_t led_user(issi3733_led_t* cur);
+user_rgb_t led_keypress_reaction(issi3733_led_t* led_cur);
+void decrease_lighting_user(void);
 
 __attribute__ ((weak))
 void led_matrix_run(void)
 {
+    decrease_lighting_user();
     float ro;
     float go;
     float bo;
@@ -339,6 +342,13 @@ void led_matrix_run(void)
         {
             // use the lighting mode that is set by the user
             user_rgb_t result = led_user(led_cur);
+            ro = result.r;
+            go = result.g;
+            bo = result.b;
+        }
+        else if (led_lighting_mode == LED_MODE_TYPEREACTIVE)
+        {
+            user_rgb_t result = led_keypress_reaction(led_cur);
             ro = result.r;
             go = result.g;
             bo = result.b;
