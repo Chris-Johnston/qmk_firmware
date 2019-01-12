@@ -262,7 +262,8 @@ float breathe_mult;
 
 // has to be set in the keymap
 user_rgb_t led_user(issi3733_led_t* cur);
-user_rgb_t led_keypress_reaction(issi3733_led_t* led_cur);
+// returns the brightness for this key
+int led_keypress_reaction(issi3733_led_t* led_cur);
 void decrease_lighting_user(void);
 
 __attribute__ ((weak))
@@ -346,13 +347,14 @@ void led_matrix_run(void)
             go = result.g;
             bo = result.b;
         }
-        else if (led_lighting_mode == LED_MODE_TYPEREACTIVE)
-        {
-            user_rgb_t result = led_keypress_reaction(led_cur);
-            ro = result.r;
-            go = result.g;
-            bo = result.b;
-        }
+        // else if (led_lighting_mode == LED_MODE_TYPEREACTIVE)
+        // {
+
+        //     // user_rgb_t result = led_keypress_reaction(led_cur);
+        //     // ro = result.r;
+        //     // go = result.g;
+        //     // bo = result.b;
+        // }
         else if (led_lighting_mode == LED_MODE_KEYS_ONLY && led_cur->scan == 255)
         {
             //Do not act on this LED
@@ -436,17 +438,25 @@ void led_matrix_run(void)
             }
         }
 
-        //Clamp values 0-255
-        if (ro > 255) ro = 255; else if (ro < 0) ro = 0;
-        if (go > 255) go = 255; else if (go < 0) go = 0;
-        if (bo > 255) bo = 255; else if (bo < 0) bo = 0;
-
         if (led_animation_breathing)
         {
             ro *= breathe_mult;
             go *= breathe_mult;
             bo *= breathe_mult;
         }
+
+        if (led_lighting_mode == LED_MODE_TYPEREACTIVE)
+        {
+            float mult = led_keypress_reaction(led_cur) / 255.0;
+            ro *= mult;
+            go *= mult;
+            bo *= mult;
+        }
+
+        //Clamp values 0-255
+        if (ro > 255) ro = 255; else if (ro < 0) ro = 0;
+        if (go > 255) go = 255; else if (go < 0) go = 0;
+        if (bo > 255) bo = 255; else if (bo < 0) bo = 0;
 
         *led_cur->rgb.r = (uint8_t)ro;
         *led_cur->rgb.g = (uint8_t)go;

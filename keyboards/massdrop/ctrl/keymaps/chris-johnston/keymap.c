@@ -137,9 +137,9 @@ const user_rgb_t color_codes[] = {
   [255] = {.r = 100, .b = 100},
 };
 
-user_rgb_t led_keypress_reaction(issi3733_led_t* led_cur)
+int led_keypress_reaction(issi3733_led_t* led_cur)
 {
-  return (user_rgb_t) { .g = keypress_brightness[led_cur->scan] };
+  return keypress_brightness[led_cur->scan];
 }
 
 user_rgb_t led_user(issi3733_led_t* led_cur)

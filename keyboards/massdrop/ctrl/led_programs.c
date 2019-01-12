@@ -83,6 +83,29 @@ led_setup_t leds_black_with_cyan_stripe[] = {
     { .end = 1 },
 };
 
+// led_setup_t leds_gradient_custom[] =
+// {
+//   // { .hs = 0, .he = 100, .rs = 0x92, .re = 0x92, .gs = 0xFF, .ge = 0xFF, .bs = 0xC0, .be = 0xC0, .ef = EF_NONE },
+//   { .hs = 0, .he = 50, .rs = 0x92, .re = 0, .gs = 0xFF, .ge = 0x26, .bs = 0xC0, .be = 0x61, .ef = EF_SCR_R | EF_OVER },
+//   { .hs = 50, .he = 100, .re = 0x92, .rs = 0, .ge = 0xFF, .gs = 0x26, .be = 0xC0, .bs = 0x61, .ef = EF_SCR_R | EF_OVER },
+//   { .end = 1 },
+// };
+
+#define R(x) ((x >> 16) & 0xFF)
+#define G(x) ((x >> 8) & 0xFF)
+#define B(x) ((x >> 0) & 0xFF)
+
+#define COLOR_C1 0x00ffdf
+#define COLOR_C2 0xb400ff
+
+
+led_setup_t leds_gradient_custom[] =
+{
+  { .hs = 0, .he = 50, .rs = R(COLOR_C1), .re = R(COLOR_C2), .gs = G(COLOR_C1), .ge = G(COLOR_C2), .bs = B(COLOR_C1), .be = B(COLOR_C2), .ef = EF_SCR_R | EF_OVER },
+  { .hs = 50, .he = 100, .re = R(COLOR_C1), .rs = R(COLOR_C2), .ge = G(COLOR_C1), .gs = G(COLOR_C2), .be = B(COLOR_C1), .bs = B(COLOR_C2), .ef = EF_SCR_R | EF_OVER },
+  { .end = 1 },
+};
+
 //Rainbow no scrolling
 led_setup_t leds_rainbow_ns[] = {
     { .hs = 0,      .he = 16.67,  .rs = 255, .re = 255, .gs = 0,   .ge = 255, .bs = 0,   .be = 0,   .ef = EF_OVER },
@@ -110,6 +133,7 @@ led_setup_t leds_rainbow_s[] = {
 //Add the new animation name to the list below following its format
 
 void *led_setups[] = {
+    leds_gradient_custom,
     leds_black_with_cyan_stripe,
     leds_rainbow_s,
     leds_rainbow_ns,
