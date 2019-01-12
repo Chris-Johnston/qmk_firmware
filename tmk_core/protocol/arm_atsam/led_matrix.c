@@ -67,6 +67,8 @@ uint8_t gcr_actual_last;
 
 #define LED_GCR_STEP_AUTO 2
 
+float hacking_brightness[255];
+
 static uint8_t gcr_min_counter;
 static uint8_t v_5v_cat_hit;
 
@@ -235,6 +237,12 @@ void disp_pixel_setup(void)
 
         cur++;
     }
+
+    // initialize the hacking brightness values
+    for (int i = 0; i < 255; i++)
+    {
+        hacking_brightness[i] = 0;
+    }
 }
 
 void led_matrix_prepare(void)
@@ -318,28 +326,28 @@ void led_matrix_run(void)
         go = 0;
         bo = 0;
 
-        if (led_lighting_mode == LED_MODE_HACKING)
-        {
-            // don't modify the output
-            ro = *led_cur->rgb.r;
-            go = *led_cur->rgb.g;
-            bo = *led_cur->rgb.b;
+        // if (led_lighting_mode == LED_MODE_HACKING)
+        // {
+        //     // don't modify the output
+        //     ro = *led_cur->rgb.r;
+        //     go = *led_cur->rgb.g;
+        //     bo = *led_cur->rgb.b;
 
-            // turn down the brightness a little bit
-            ro -= 6;
-            go -= 6;
-            bo -= 6;
+        //     // turn down the brightness a little bit
+        //     ro -= 6;
+        //     go -= 6;
+        //     bo -= 6;
 
-            bool on = (rand() % 150) == 0;
-            // bool on = true;
-            if (on)
-            {
-                ro = 0;
-                go = 255;
-                bo = 0;
-            }
-        }
-        else if (led_lighting_mode == LED_MODE_USER)
+        //     bool on = (rand() % 150) == 0;
+        //     // bool on = true;
+        //     if (on)
+        //     {
+        //         ro = 0;
+        //         go = 255;
+        //         bo = 0;
+        //     }
+        // }
+        if (led_lighting_mode == LED_MODE_USER)
         {
             // use the lighting mode that is set by the user
             user_rgb_t result = led_user(led_cur);
@@ -445,14 +453,71 @@ void led_matrix_run(void)
             bo *= breathe_mult;
         }
 
-        if (led_lighting_mode == LED_MODE_TYPEREACTIVE)
+        float mult_hacking = 0;
+        float mult_press = 0;
+
+        if ((led_lighting_mode == LED_MODE_HACKING || led_lighting_mode == LED_MODE_GIGAHAX) && led_cur->scan != 255) // ignore 255 scan code
+        {
+            // decerase this scan code's brightness by a little bit
+            float b = hacking_brightness[led_cur->scan];
+            b = max(b - 0.015, 0);
+
+            // randomly turn on leds, only if they appear to be nearly off
+            if ((rand() % 125) == 0 && b < 0.2)
+            {
+              b = 1;
+            }
+
+            hacking_brightness[led_cur->scan] = b;
+            mult_hacking = b * 0.2;
+
+            if (led_lighting_mode != LED_MODE_GIGAHAX)
+            {
+              ro *= b;
+              go *= b;
+              bo *= b;
+            }
+
+
+            // don't modify the output
+        //     ro = *led_cur->rgb.r;
+        //     go = *led_cur->rgb.g;
+        //     bo = *led_cur->rgb.b;
+
+        //     // turn down the brightness a little bit
+        //     ro -= 6;
+        //     go -= 6;
+        //     bo -= 6;
+
+        //     bool on = (rand() % 150) == 0;
+        //     // bool on = true;
+        //     if (on)
+        //     {
+        //         ro = 0;
+        //         go = 255;
+        //         bo = 0;
+        //     }
+        }
+
+        if (led_lighting_mode == LED_MODE_TYPEREACTIVE || led_lighting_mode == LED_MODE_GIGAHAX)
         {
             float mult = led_keypress_reaction(led_cur) / 255.0;
+            mult_press = mult;
+            if (led_lighting_mode != LED_MODE_GIGAHAX)
+            {
+              ro *= mult;
+              go *= mult;
+              bo *= mult;
+            }
+        }
+
+        if (led_lighting_mode == LED_MODE_GIGAHAX)
+        {
+            float mult = max(mult_hacking, mult_press);
             ro *= mult;
             go *= mult;
             bo *= mult;
         }
-
         //Clamp values 0-255
         if (ro > 255) ro = 255; else if (ro < 0) ro = 0;
         if (go > 255) go = 255; else if (go < 0) go = 0;

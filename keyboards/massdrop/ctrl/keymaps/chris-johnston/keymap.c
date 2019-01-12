@@ -71,8 +71,8 @@ uint8_t keypress_brightness[87];
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
   // led_lighting_mode = LED_MODE_USER;
-  //led_lighting_mode = LED_MODE_HACKING;
-  led_lighting_mode = LED_MODE_TYPEREACTIVE;
+  led_lighting_mode = LED_MODE_GIGAHAX;
+  // led_lighting_mode = LED_MODE_TYPEREACTIVE;
 
   for (int i = 0; i < NUM_KEYS; i++)
   {
@@ -128,12 +128,9 @@ bool toggle = false;
 
 // looks up a color code for each scan code
 const user_rgb_t color_codes[] = {
-  [start + 0] = {.r = 255 },
-  [start + 1] = {.g = 255 },
-  [start + 2] = {.b = 255 },
-  // [40] = { .r = 255, .b = 255},
-  // [35] = { .r = 255, .b = 255},
-  // [36] = { .r = 255, .b = 255},
+  [40] = { .r = 255, .b = 255},
+  [35] = { .r = 255, .b = 255},
+  [36] = { .r = 255, .b = 255},
   [255] = {.r = 100, .b = 100},
 };
 
