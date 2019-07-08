@@ -1,15 +1,23 @@
-# ErgoDox EZ Default Configuration
+# Ergodox EZ Chris-Johnston Keymap
 
-## Changelog
-
-* Dec 2016:
-  * Added LED keys
-  * Refreshed layout graphic, comes from http://configure.ergodox-ez.com now.
-* Sep 22, 2016:
-  * Created a new key in layer 1 (bottom-corner key) that resets the EEPROM.
-* Feb 2, 2016 (V1.1): 
-  * Made the right-hand quote key double as Cmd/Win on hold. So you get ' when you tap it, " when you tap it with Shift, and Cmd or Win when you hold it. You can then use it as a modifier, or just press and hold it for a moment (and then let go) to send a single Cmd or Win keystroke (handy for opening the Start menu on Windows).
-
-This is what we ship with out of the factory. :) The image says it all:
-
-![Default](https://i.imgur.com/Be53jH7.png)
+```
+*
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * | Del    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | BkSp   |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / L2|' / Cmd |
+ * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
+ * | LShift |Z/Ctrl|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//Ctrl| RShift |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |Grv/L1|  '"  |AltShf| Left | Right|                                       |  Up  | Down |   [  |   ]  | ~L1  |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        | App  | LGui |       | Alt  |Ctrl/Esc|
+ *                                 ,------|------|------|       |------+--------+------.
+ *                                 |      |      | Home |       | PgUp |        |      |
+ *                                 | Space|Backsp|------|       |------|  Tab   |Enter |
+ *                                 |      |ace   | End  |       | PgDn |        |      |
+ *                                 `--------------------'       `----------------------'
+ ```
