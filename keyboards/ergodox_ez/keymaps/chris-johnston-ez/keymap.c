@@ -5,6 +5,9 @@
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
 
+#define RGBLIGHT_SLEEP // switch off RGB on sleep
+#define RGBLIGHT_SPLIT // split
+
 enum custom_keycodes {
   EPRM = SAFE_RANGE,
   VRSN,
