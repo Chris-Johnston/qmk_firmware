@@ -5,13 +5,13 @@
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
 
-#define RGBLIGHT_SLEEP // switch off RGB on sleep
-#define RGBLIGHT_SPLIT // split
+// https://beta.docs.qmk.fm/features/feature_rgb_matrix
 
 enum custom_keycodes {
   EPRM = SAFE_RANGE,
   VRSN,
-  RGB_SLD
+  RGB_SLD,
+  HACKER
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TRNS, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,
   KC_TRNS, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, KC_TRNS,
   EPRM,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                               RGB_MOD, KC_TRNS,
+                                               RGB_MOD, HACKER,
                                                         KC_TRNS,
                                       RGB_VAD, RGB_VAI, KC_TRNS,
   // right hand
@@ -154,6 +154,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         rgblight_mode(1);
         return false;
       #endif
+      case HACKER:
+        rgblight_mode(RGB_MATRIX_TYPING_HEATMAP);
+        return false;
     }
   }
   return true;
