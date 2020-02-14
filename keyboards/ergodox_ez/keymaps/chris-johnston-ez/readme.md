@@ -1,5 +1,7 @@
 # ErgoDox EZ Default Configuration
 
+This is my pre-built ergo
+
 ## Changelog
 
 * Dec 2016:
