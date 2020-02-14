@@ -1,4 +1,8 @@
-# Ergodox EZ Chris-Johnston Keymap
+# Ergodox Chris-Johnston Keymap
+
+This is my custom one, not the ez
+
+### This keymap is outdated, yes I am too lazy to fix it
 
 ```
 *
